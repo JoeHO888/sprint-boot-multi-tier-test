@@ -18,6 +18,18 @@ public class ParkingLotResource {
     @Autowired
     private ParkingLotRepository parkingLotRepository;
 
+    @PostMapping(produces = {"application/json"})
+    public ResponseEntity<String> createParkingLot(@RequestBody ParkingLot parkingLot) {
+        parkingLotRepository.save(parkingLot);
+
+        URI location = URI.create("/parkinglots");
+        HttpHeaders responseHeaders = new HttpHeaders();
+        responseHeaders.setLocation(location);
+        responseHeaders.set("Header", "Create A Parking Lot");
+        return new ResponseEntity<String>("Parking Lot "+parkingLot.getParkingLotId()+" is created",
+                responseHeaders, HttpStatus.CREATED);
+    }
+
 
     @GetMapping
     public ResponseEntity<ParkingLotResponse[]> getAll() {
