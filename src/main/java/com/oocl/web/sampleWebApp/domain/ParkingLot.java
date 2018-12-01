@@ -23,6 +23,17 @@ public class ParkingLot {
     @Min(0)
     private Integer availablePositionCount;
 
+    @Column(name = "parking_boy_id",nullable = false)
+    private Integer parkingBoyId;
+
+    public Integer getParkingBoyId() {
+        return parkingBoyId;
+    }
+
+    public void setParkingBoyId(Integer parkingBoyId) {
+        this.parkingBoyId = parkingBoyId;
+    }
+
     public Integer getAvailablePositionCount() {
         return availablePositionCount;
     }
@@ -30,7 +41,6 @@ public class ParkingLot {
     public void setAvailablePositionCount(Integer availablePositionCount) {
         this.availablePositionCount = availablePositionCount;
     }
-
 
     public Long getId() {
         return id;

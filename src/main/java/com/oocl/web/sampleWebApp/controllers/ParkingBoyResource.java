@@ -2,6 +2,7 @@ package com.oocl.web.sampleWebApp.controllers;
 
 import com.oocl.web.sampleWebApp.domain.ParkingBoy;
 import com.oocl.web.sampleWebApp.domain.ParkingBoyRepository;
+import com.oocl.web.sampleWebApp.domain.ParkingLot;
 import com.oocl.web.sampleWebApp.models.ParkingBoyResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -37,4 +38,9 @@ public class ParkingBoyResource {
                 .toArray(ParkingBoyResponse[]::new);
         return ResponseEntity.ok(parkingBoys);
     }
+
+//    @PostMapping(value = "/{id}/parkinglots",produces = {"application/json"})
+//    public void addParkingLotsToParkingBoy(@RequestBody ParkingLot[] parkingLots) {
+//        employeeService.addEmployee(employee);
+//    }
 }

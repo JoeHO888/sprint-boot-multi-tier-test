@@ -38,4 +38,6 @@ public class ParkingLotResource {
             .toArray(ParkingLotResponse[]::new);
         return ResponseEntity.ok(parkinglots);
     }
+
+
 }
