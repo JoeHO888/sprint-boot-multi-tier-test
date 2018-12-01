@@ -1,0 +1,1 @@
+alter table parking_lot add check (capacity>=1 and capacity<=100) ;

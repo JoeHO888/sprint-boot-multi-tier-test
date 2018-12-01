@@ -3,3 +3,4 @@ create table parking_lot (
     parking_boy_id      bigint  null,
     primary key (id)
 )
+
