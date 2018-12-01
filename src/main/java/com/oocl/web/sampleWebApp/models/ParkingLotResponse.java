@@ -23,10 +23,15 @@ public class ParkingLotResponse {
 
         final ParkingLotResponse response = new ParkingLotResponse();
         response.setParkingLotId(parkingLotId);
+
         return response;
     }
 
     public static ParkingLotResponse create(ParkingLot entity) {
+        String parkingLotId = entity.getParkingLotId();
+
+        Objects.requireNonNull(parkingLotId);
+
         return create(entity.getParkingLotId());
     }
 
