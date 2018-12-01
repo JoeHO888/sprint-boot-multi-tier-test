@@ -23,7 +23,7 @@ public class ParkingLot {
     @Min(0)
     private Integer availablePositionCount;
 
-    @Column(name = "parking_boy_id",nullable = false)
+    @Column(name = "parking_boy_id", length = 64)
     private String parkingBoyId;
 
     public String getParkingBoyId() {

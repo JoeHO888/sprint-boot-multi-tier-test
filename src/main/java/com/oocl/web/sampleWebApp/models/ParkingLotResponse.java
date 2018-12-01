@@ -36,22 +36,10 @@ public class ParkingLotResponse {
         this.availablePositionCount = availablePositionCount;
     }
 
-
-
-//    public static ParkingLotResponse create(String parkingLotId) {
-//        Objects.requireNonNull(parkingLotId);
-//
-//        final ParkingLotResponse response = new ParkingLotResponse();
-//        response.setParkingLotId(parkingLotId);
-//
-//        return response;
-//    }
-
     public static ParkingLotResponse create(ParkingLot entity) {
         String parkingLotId = entity.getParkingLotId();
         Integer capacity = entity.getCapacity();
         Integer availablePositionCount = entity.getAvailablePositionCount();
-
 
         Objects.requireNonNull(parkingLotId);
 
@@ -59,7 +47,7 @@ public class ParkingLotResponse {
         response.setParkingLotId(parkingLotId);
         response.setCapacity(capacity);
         response.setAvailablePositionCount(availablePositionCount);
-
+        response.setAvailablePositionCount(availablePositionCount);
 
         return response;
     }
