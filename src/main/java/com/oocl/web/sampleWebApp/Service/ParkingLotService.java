@@ -32,6 +32,10 @@ public class ParkingLotService {
     }
 
     public void assignParkingLotsToParkingBoy (List<Long> parkingLotsID,String employee_id, ParkingLotRepository parkingLotRepository){
+        parkingLotRepository.findAll().stream().forEach(e -> {
+            e.setParkingBoyId(null);
+            parkingLotRepository.save(e);
+        });
         parkingLotsID.stream().forEach(e ->{
             ParkingLot parkingLot = parkingLotRepository.getOne(e);
             parkingLot.setParkingBoyId(employee_id);

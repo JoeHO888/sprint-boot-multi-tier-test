@@ -61,7 +61,7 @@ public class ParkingBoyResource {
     }
 
     @PostMapping(value = "/{employee_id}/parkinglots",produces = {"application/json"})
-    public ResponseEntity<String> addParkingLotsToParkingBoy(@RequestBody List<String> parkingLotsList,
+    public void addParkingLotsToParkingBoy(@RequestBody List<String> parkingLotsList,
                                            @PathVariable String employee_id) {
 
         Boolean parkingLotListIsValid = parkingLotService.isParkingLotsListValid(parkingLotsList,parkingLotRepository);
@@ -70,9 +70,15 @@ public class ParkingBoyResource {
             List<ParkingLot>  parkingLotsSelected = parkingLotService.retrieveParkingLots(parkingLotsList,parkingLotRepository);
             List<Long> parkingLotsSelectedID = parkingLotsSelected.stream().map(e -> e.getId()).collect(Collectors.toList());
             parkingLotService.assignParkingLotsToParkingBoy(parkingLotsSelectedID,employee_id,parkingLotRepository);
-            return ResponseEntity.ok("123");
         }
-        return ResponseEntity.ok("456");
+    }
+
+    @GetMapping(value = "/{employee_id}/parkinglots",produces = {"application/json"})
+    public ResponseEntity<ParkingBoyResponse> getParkingLotsOfParkingBoy(@PathVariable String employee_id) {
+
+        ParkingBoyResponse response = new ParkingBoyResponse();
+
+        return ResponseEntity.ok(response.getParkingLotsOfParkingBoy(employee_id,parkingLotRepository));
 
     }
 }

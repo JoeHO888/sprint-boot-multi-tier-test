@@ -34,14 +34,6 @@ public class ParkingLot {
         this.parkingBoyId = parkingBoyId;
     }
 
-    public Integer getAvailablePositionCount() {
-        return availablePositionCount;
-    }
-
-    public void setAvailablePositionCount(Integer availablePositionCount) {
-        this.availablePositionCount = availablePositionCount;
-    }
-
     public Long getId() {
         return id;
     }
@@ -66,7 +58,14 @@ public class ParkingLot {
         this.capacity = capacity;
     }
 
+    public Integer getAvailablePositionCount() {
+        return availablePositionCount;
+    }
 
+    public void setAvailablePositionCount(Integer availablePositionCount) {
+        this.availablePositionCount = availablePositionCount;
+
+    }
     protected ParkingLot() {}
 
     public ParkingLot(String parkingLotId) {
