@@ -1,12 +1,15 @@
 package com.oocl.web.sampleWebApp.controllers;
 
+import com.oocl.web.sampleWebApp.domain.ParkingBoy;
 import com.oocl.web.sampleWebApp.domain.ParkingBoyRepository;
 import com.oocl.web.sampleWebApp.models.ParkingBoyResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.net.URI;
 
 @RestController
 @RequestMapping("/parkingboys")
@@ -14,6 +17,18 @@ public class ParkingBoyResource {
 
     @Autowired
     private ParkingBoyRepository parkingBoyRepository;
+
+    @PostMapping(produces = {"application/json"})
+    public ResponseEntity<String> createParkingBoy(@RequestBody ParkingBoy parkingBoy) {
+        parkingBoyRepository.save(parkingBoy);
+
+        URI location = URI.create("/parkingboys");
+        HttpHeaders responseHeaders = new HttpHeaders();
+        responseHeaders.setLocation(location);
+        responseHeaders.set("Header", "Create A Parking Boy");
+        return new ResponseEntity<String>("Parking Boy "+parkingBoy.getEmployeeId()+" is created",
+                responseHeaders, HttpStatus.CREATED);
+    }
 
     @GetMapping
     public ResponseEntity<ParkingBoyResponse[]> getAll() {
