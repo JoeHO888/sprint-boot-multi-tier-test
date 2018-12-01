@@ -24,13 +24,13 @@ public class ParkingLot {
     private Integer availablePositionCount;
 
     @Column(name = "parking_boy_id",nullable = false)
-    private Integer parkingBoyId;
+    private String parkingBoyId;
 
-    public Integer getParkingBoyId() {
+    public String getParkingBoyId() {
         return parkingBoyId;
     }
 
-    public void setParkingBoyId(Integer parkingBoyId) {
+    public void setParkingBoyId(String parkingBoyId) {
         this.parkingBoyId = parkingBoyId;
     }
 
