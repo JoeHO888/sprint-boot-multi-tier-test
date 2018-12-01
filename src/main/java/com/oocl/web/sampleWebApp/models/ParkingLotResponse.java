@@ -7,7 +7,6 @@ import com.oocl.web.sampleWebApp.domain.ParkingLot;
 import java.util.Objects;
 
 public class ParkingLotResponse {
-
     private String parkingLotId;
 
     public String getParkingLotId() {
@@ -35,4 +34,6 @@ public class ParkingLotResponse {
     public boolean isValid() {
         return parkingLotId != null;
     }
+
+
 }

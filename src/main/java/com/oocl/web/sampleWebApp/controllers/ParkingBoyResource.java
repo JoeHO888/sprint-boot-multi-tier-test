@@ -33,8 +33,8 @@ public class ParkingBoyResource {
     @GetMapping
     public ResponseEntity<ParkingBoyResponse[]> getAll() {
         final ParkingBoyResponse[] parkingBoys = parkingBoyRepository.findAll().stream()
-            .map(ParkingBoyResponse::create)
-            .toArray(ParkingBoyResponse[]::new);
+                .map(ParkingBoyResponse::create)
+                .toArray(ParkingBoyResponse[]::new);
         return ResponseEntity.ok(parkingBoys);
     }
 }

@@ -2,6 +2,7 @@ package com.oocl.web.sampleWebApp.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.oocl.web.sampleWebApp.domain.ParkingBoy;
+import com.oocl.web.sampleWebApp.domain.ParkingLot;
 
 import java.util.Objects;
 
@@ -32,4 +33,5 @@ public class ParkingBoyResponse {
     public boolean isValid() {
         return employeeId != null;
     }
+
 }
