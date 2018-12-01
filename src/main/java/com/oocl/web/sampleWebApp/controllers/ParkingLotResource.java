@@ -21,6 +21,7 @@ public class ParkingLotResource {
     @PostMapping(produces = {"application/json"})
     public ResponseEntity<String> createParkingLot(@RequestBody ParkingLot parkingLot) {
         parkingLotRepository.save(parkingLot);
+        parkingLotRepository.flush();
 
         URI location = URI.create("/parkinglots");
         HttpHeaders responseHeaders = new HttpHeaders();
