@@ -33,7 +33,7 @@ public class Story3Test {
     private MockMvc mvc;
 
     @Test
-    public void should_get_parking_lot() throws Exception {
+    public void should_get_parking_boy_with_parking_lots_assigned() throws Exception {
 //         Given
         final ParkingBoy boy = parkingBoyRepository.save(new ParkingBoy("boy"));
 
@@ -62,6 +62,29 @@ public class Story3Test {
         assertEquals(200, result.getResponse().getStatus());
     }
 
+    @Test
+    public void should_assign_parking_boy_with_parking_lots() throws Exception {
+//         Given
+        final ParkingBoy boy = parkingBoyRepository.save(new ParkingBoy("boy"));
 
+        final String parkingLotJSONString = toJSON("ST","41","2");
+
+        final String assignment = "[\"ParkingLotA\"]";
+
+        final MvcResult addParkingLotresult = mvc.perform(MockMvcRequestBuilders
+                .post("/parkinglots")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(parkingLotJSONString))
+                .andReturn();
+
+        final MvcResult addParkingLotToParkingBoy = mvc.perform(MockMvcRequestBuilders
+                .post("/parkingboys/boy/parkinglots")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(assignment))
+                .andReturn();
+
+        // Then
+        assertEquals(201, addParkingLotToParkingBoy.getResponse().getStatus());
+    }
 
 }

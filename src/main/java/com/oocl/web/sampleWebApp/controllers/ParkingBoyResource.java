@@ -73,7 +73,7 @@ public class ParkingBoyResource {
     }
 
     @PostMapping(value = "/{employee_id}/parkinglots",produces = {"application/json"})
-    public void addParkingLotsToParkingBoy(@RequestBody List<String> parkingLotsList,
+    public ResponseEntity<String> addParkingLotsToParkingBoy(@RequestBody List<String> parkingLotsList,
                                            @PathVariable String employee_id) {
 
         Boolean parkingLotListIsValid = parkingLotService.isParkingLotsListValid(parkingLotsList,parkingLotRepository);
@@ -83,6 +83,15 @@ public class ParkingBoyResource {
             List<Long> parkingLotsSelectedID = parkingLotsSelected.stream().map(e -> e.getId()).collect(Collectors.toList());
             parkingLotService.assignParkingLotsToParkingBoy(parkingLotsSelectedID,employee_id,parkingLotRepository);
         }
+
+
+        URI location = URI.create("/parkingboys/"+employee_id+"/parkinglots");
+        HttpHeaders responseHeaders = new HttpHeaders();
+        responseHeaders.setLocation(location);
+        responseHeaders.set("Header", "Assign ParkingLots To ParkingBoy");
+        String body = "ParkingLots are assigned to a Parking Boy "+ employee_id;
+
+        return new ResponseEntity<String>(body, responseHeaders, HttpStatus.CREATED);
     }
 
     @GetMapping(value = "/{employee_id}/parkinglots",produces = {"application/json"})
