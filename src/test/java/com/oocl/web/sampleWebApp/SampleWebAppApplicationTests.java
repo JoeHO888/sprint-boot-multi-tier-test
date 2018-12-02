@@ -55,23 +55,4 @@ public class SampleWebAppApplicationTests {
         assertEquals("boy", parkingBoys[0].getEmployeeId());
     }
 
-    @Test
-    public void should_get_parking_boys1() throws Exception {
-
-        // Given
-        final ParkingBoy boy = parkingBoyRepository.save(new ParkingBoy("boy"));
-
-        // When
-        final MvcResult result = mvc.perform(MockMvcRequestBuilders
-                .get("/parkingboys"))
-                .andReturn();
-
-        // Then
-        assertEquals(200, result.getResponse().getStatus());
-
-        final ParkingBoyResponse[] parkingBoys = getContentAsObject(result, ParkingBoyResponse[].class);
-
-        assertEquals(1, parkingBoys.length);
-        assertEquals("boy", parkingBoys[0].getEmployeeId());
-    }
 }

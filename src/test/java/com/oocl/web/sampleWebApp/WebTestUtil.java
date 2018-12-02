@@ -19,4 +19,11 @@ class WebTestUtil {
     public static String toJSON(ParkingBoy parkingBoy){
         return "{\"employeeId\": " + "\"" + parkingBoy.getEmployeeId() + "\"" + "}";
     }
+
+    public static String toJSON(String parkingLotId,String capacity, String availablePositionCount){
+        return "{\"parkingLotId\": " + "\"" + parkingLotId + "\"" +
+                ",\"capacity\": " + "\"" + capacity + "\""+
+                ",\"availablePositionCount\": " + "\"" + availablePositionCount + "\""+
+                "}";
+    }
 }

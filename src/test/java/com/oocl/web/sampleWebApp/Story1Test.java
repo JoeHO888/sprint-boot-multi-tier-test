@@ -31,8 +31,27 @@ public class Story1Test {
     @Autowired
     private MockMvc mvc;
 
+    @Test
+    public void should_get_parking_boys() throws Exception {
+        // Given
+        final ParkingBoy boy = parkingBoyRepository.save(new ParkingBoy("boy"));
+
+        // When
+        final MvcResult result = mvc.perform(MockMvcRequestBuilders
+                .get("/parkingboys"))
+                .andReturn();
+
+        // Then
+        assertEquals(200, result.getResponse().getStatus());
+
+        final ParkingBoyResponse[] parkingBoys = getContentAsObject(result, ParkingBoyResponse[].class);
+
+        assertEquals(1, parkingBoys.length);
+        assertEquals("boy", parkingBoys[0].getEmployeeId());
+    }
+
 	@Test
-	public void should_get_parking_boys() throws Exception {
+	public void should_add_parking_boys() throws Exception {
         // Given A parking Boy
         final ParkingBoy parkingBoy = new ParkingBoy("April");
         final String parkingBoyJSONString = toJSON(parkingBoy);
@@ -48,7 +67,7 @@ public class Story1Test {
     }
 
     @Test
-    public void should_not_save_parking_boys_with_duplicated_name() throws Exception {
+    public void should_not_add_parking_boys_with_duplicated_name() throws Exception {
         // Given Two parking Boy
         final ParkingBoy parkingBoy = new ParkingBoy("April");
         final String parkingBoyJSONString = toJSON(parkingBoy);
@@ -69,7 +88,7 @@ public class Story1Test {
                 .content(parkingBoyWithDuplicatedNameJSONString))
                 .andReturn();
 
-         Then the repository shoud contain a record
+//         Then the repository shoud contain a record
         assertEquals(409, SecondPostresult.getResponse().getStatus());
         assertEquals(1,parkingBoyRepository.findAll().size());
     }

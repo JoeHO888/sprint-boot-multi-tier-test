@@ -1,0 +1,1 @@
+alter table if exists parking_lot Add constraint Isavailable_position_countValid check (capacity >= available_position_count)
