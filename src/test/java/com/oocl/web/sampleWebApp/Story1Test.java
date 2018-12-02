@@ -45,24 +45,33 @@ public class Story1Test {
                 .andReturn();
         // Then the repository shoud contain a record
         assertEquals(201, result.getResponse().getStatus());
-        assertEquals(1,parkingBoyRepository.findAll().size());
     }
 
     @Test
-    public void should_not_save_parking_boys_with_duplicate_name) throws Exception {
-        // Given A parking Boy
+    public void should_not_save_parking_boys_with_duplicated_name() throws Exception {
+        // Given Two parking Boy
         final ParkingBoy parkingBoy = new ParkingBoy("April");
         final String parkingBoyJSONString = toJSON(parkingBoy);
 
+        final ParkingBoy parkingBoyWithDuplicatedName = new ParkingBoy("April");
+        final String parkingBoyWithDuplicatedNameJSONString = toJSON(parkingBoyWithDuplicatedName);
+
         // When save this parking boy in repository
-        final MvcResult result = mvc.perform(MockMvcRequestBuilders
+        final MvcResult FirstPostresult = mvc.perform(MockMvcRequestBuilders
                 .post("/parkingboys")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(parkingBoyJSONString))
                 .andReturn();
+
+        final MvcResult SecondPostresult = mvc.perform(MockMvcRequestBuilders
+                .post("/parkingboys")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(parkingBoyWithDuplicatedNameJSONString))
+                .andReturn();
+
         // Then the repository shoud contain a record
-        assertEquals(201, result.getResponse().getStatus());
-        assertEquals(1,parkingBoyRepository.findAll().size());
+//        assertEquals(409, SecondPostresult.getResponse().getStatus());
+//        assertEquals(1,parkingBoyRepository.findAll().size());
     }
 
 }

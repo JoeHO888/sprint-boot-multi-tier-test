@@ -19,6 +19,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import static org.springframework.http.HttpStatus.*;
+
 @RestController
 @RequestMapping("/parkingboys")
 public class ParkingBoyResource {
@@ -40,16 +42,26 @@ public class ParkingBoyResource {
 
 
     @PostMapping(produces = {"application/json"})
-    public ResponseEntity<String> createParkingBoy(@RequestBody ParkingBoy parkingBoy) {
-        parkingBoyRepository.save(parkingBoy);
-        parkingBoyRepository.flush();
-
+    public ResponseEntity<String> createParkingBoy(@RequestBody ParkingBoy parkingBoy) throws Exception{
         URI location = URI.create("/parkingboys");
         HttpHeaders responseHeaders = new HttpHeaders();
         responseHeaders.setLocation(location);
         responseHeaders.set("Header", "Create A Parking Boy");
-        return new ResponseEntity<String>("Parking Boy "+parkingBoy.getEmployeeId()+" is created",
-                responseHeaders, HttpStatus.CREATED);
+        String body = "";
+        HttpStatus status;
+
+        if(parkingBoyRepository.findAll().stream().map(e->e.getEmployeeId()).
+                collect(Collectors.toList()).contains(parkingBoy.getEmployeeId())) {
+            body = "Conflict";
+            status = HttpStatus.CONFLICT;
+        }
+        else{
+            parkingBoyRepository.save(parkingBoy);
+            parkingBoyRepository.flush();
+            body = "Parking Boy "+parkingBoy.getEmployeeId()+" is created";
+            status = HttpStatus.CREATED;
+        }
+        return new ResponseEntity<String>(body, responseHeaders, status);
     }
 
     @GetMapping
