@@ -8,6 +8,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
@@ -15,6 +16,8 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import static com.oocl.web.sampleWebApp.WebTestUtil.getContentAsObject;
+import static com.oocl.web.sampleWebApp.WebTestUtil.toJSON;
+import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringRunner.class)
@@ -30,40 +33,36 @@ public class Story1Test {
 
 	@Test
 	public void should_get_parking_boys() throws Exception {
-	    // Given
-        final ParkingBoy boy = parkingBoyRepository.save(new ParkingBoy("boy"));
+        // Given A parking Boy
+        final ParkingBoy parkingBoy = new ParkingBoy("April");
+        final String parkingBoyJSONString = toJSON(parkingBoy);
 
-        // When
+        // When save this parking boy in repository
         final MvcResult result = mvc.perform(MockMvcRequestBuilders
-            .get("/parkingboys"))
-            .andReturn();
-
-        // Then
-        assertEquals(200, result.getResponse().getStatus());
-
-        final ParkingBoyResponse[] parkingBoys = getContentAsObject(result, ParkingBoyResponse[].class);
-
-        assertEquals(1, parkingBoys.length);
-        assertEquals("boy", parkingBoys[0].getEmployeeId());
+                .post("/parkingboys")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(parkingBoyJSONString))
+                .andReturn();
+        // Then the repository shoud contain a record
+        assertEquals(201, result.getResponse().getStatus());
+        assertEquals(1,parkingBoyRepository.findAll().size());
     }
 
     @Test
-    public void should_get_parking_boys1() throws Exception {
+    public void should_not_save_parking_boys_with_duplicate_name) throws Exception {
+        // Given A parking Boy
+        final ParkingBoy parkingBoy = new ParkingBoy("April");
+        final String parkingBoyJSONString = toJSON(parkingBoy);
 
-        // Given
-        final ParkingBoy boy = parkingBoyRepository.save(new ParkingBoy("boy"));
-
-        // When
+        // When save this parking boy in repository
         final MvcResult result = mvc.perform(MockMvcRequestBuilders
-                .get("/parkingboys"))
+                .post("/parkingboys")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(parkingBoyJSONString))
                 .andReturn();
-
-        // Then
-        assertEquals(200, result.getResponse().getStatus());
-
-        final ParkingBoyResponse[] parkingBoys = getContentAsObject(result, ParkingBoyResponse[].class);
-
-        assertEquals(1, parkingBoys.length);
-        assertEquals("boy", parkingBoys[0].getEmployeeId());
+        // Then the repository shoud contain a record
+        assertEquals(201, result.getResponse().getStatus());
+        assertEquals(1,parkingBoyRepository.findAll().size());
     }
+
 }

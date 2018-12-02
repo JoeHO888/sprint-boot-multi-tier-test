@@ -1,6 +1,7 @@
 package com.oocl.web.sampleWebApp;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.oocl.web.sampleWebApp.domain.ParkingBoy;
 import org.springframework.test.web.servlet.MvcResult;
 
 import java.io.IOException;
@@ -13,5 +14,9 @@ class WebTestUtil {
 
     public static <T> T getContentAsObject(MvcResult result, Class<T> clazz) throws Exception {
         return toObject(result.getResponse().getContentAsString(), clazz);
+
+    }
+    public static String toJSON(ParkingBoy parkingBoy){
+        return "{\"employeeId\": " + "\"" + parkingBoy.getEmployeeId() + "\"" + "}";
     }
 }
