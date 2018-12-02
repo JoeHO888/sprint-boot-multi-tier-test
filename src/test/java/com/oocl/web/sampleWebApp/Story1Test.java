@@ -69,9 +69,9 @@ public class Story1Test {
                 .content(parkingBoyWithDuplicatedNameJSONString))
                 .andReturn();
 
-        // Then the repository shoud contain a record
-//        assertEquals(409, SecondPostresult.getResponse().getStatus());
-//        assertEquals(1,parkingBoyRepository.findAll().size());
+         Then the repository shoud contain a record
+        assertEquals(409, SecondPostresult.getResponse().getStatus());
+        assertEquals(1,parkingBoyRepository.findAll().size());
     }
 
 }
