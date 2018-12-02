@@ -28,9 +28,6 @@ public class ParkingBoyResponse {
         return employeeId;
     }
 
-
-
-
     public void setEmployeeId(String employeeId) {
         this.employeeId = employeeId;
     }
