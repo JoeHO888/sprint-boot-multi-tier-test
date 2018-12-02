@@ -74,31 +74,68 @@ public class Story2Test {
         assertEquals(201, result.getResponse().getStatus());
     }
 
-//    @Test
-//    public void should_not_add_parking_boys_with_duplicated_name() throws Exception {
-//        // Given Two parking Boy
-//        final ParkingBoy parkingBoy = new ParkingBoy("April");
-//        final String parkingBoyJSONString = toJSON(parkingBoy);
-//
-//        final ParkingBoy parkingBoyWithDuplicatedName = new ParkingBoy("April");
-//        final String parkingBoyWithDuplicatedNameJSONString = toJSON(parkingBoyWithDuplicatedName);
-//
-//        // When save this parking boy in repository
-//        final MvcResult FirstPostresult = mvc.perform(MockMvcRequestBuilders
-//                .post("/parkingboys")
-//                .contentType(MediaType.APPLICATION_JSON)
-//                .content(parkingBoyJSONString))
-//                .andReturn();
-//
-//        final MvcResult SecondPostresult = mvc.perform(MockMvcRequestBuilders
-//                .post("/parkingboys")
-//                .contentType(MediaType.APPLICATION_JSON)
-//                .content(parkingBoyWithDuplicatedNameJSONString))
-//                .andReturn();
-//
-////         Then the repository shoud contain a record
-//        assertEquals(409, SecondPostresult.getResponse().getStatus());
-//        assertEquals(1,parkingBoyRepository.findAll().size());
-//    }
+    @Test
+    public void should_not_add_parking_lots_with_duplicated_name() throws Exception {
+        // Given Two parking Lot
+        final String parkingLotJSONString = toJSON("ParkingLotA","40","20");
+
+        final String parkingLotWithDuplicatedNameJSONString = toJSON("ParkingLotA","50","10");
+
+        // When save this parking Lot in repository
+        final MvcResult FirstPostresult = mvc.perform(MockMvcRequestBuilders
+                .post("/parkinglots")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(parkingLotJSONString))
+                .andReturn();
+
+        final MvcResult SecondPostresult = mvc.perform(MockMvcRequestBuilders
+                .post("/parkinglots")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(parkingLotWithDuplicatedNameJSONString))
+                .andReturn();
+
+//         Then the repository shoud contain a record
+        assertEquals(409, SecondPostresult.getResponse().getStatus());
+        assertEquals(1,parkingLotRepository.findAll().size());
+    }
+
+    @Test
+    public void should_not_add_parking_lots_with_invalid_parameters() throws Exception {
+        // Given Two parking Lot
+        final String parkingLotJSONStringA = toJSON("ParkingLotA","40","50");
+        final String parkingLotJSONStringB = toJSON("ParkingLotA","40","-1");
+        final String parkingLotJSONStringC = toJSON("ParkingLotA","-2","-10");
+
+        // When save this parking Lot in repository
+        final MvcResult FirstPostresult = mvc.perform(MockMvcRequestBuilders
+                .post("/parkinglots")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(parkingLotJSONStringA))
+                .andReturn();
+
+        final MvcResult SecondPostresult = mvc.perform(MockMvcRequestBuilders
+                .post("/parkinglots")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(parkingLotJSONStringB))
+                .andReturn();
+
+        final MvcResult ThirdPostresult = mvc.perform(MockMvcRequestBuilders
+                .post("/parkinglots")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(parkingLotJSONStringC))
+                .andReturn();
+
+//         Then the repository shoud contain a record
+        assertEquals(400, FirstPostresult.getResponse().getStatus());
+        assertEquals(400, SecondPostresult.getResponse().getStatus());
+        assertEquals(400, ThirdPostresult.getResponse().getStatus());
+
+        assertEquals("Capacity should larger than Available Position Count",
+                FirstPostresult.getResponse().getContentAsString());
+        assertEquals("Available Position Count should be larger than zero",
+                SecondPostresult.getResponse().getContentAsString());
+        assertEquals("Capacity should be larger than zero",
+                ThirdPostresult.getResponse().getContentAsString());
+    }
 
 }
