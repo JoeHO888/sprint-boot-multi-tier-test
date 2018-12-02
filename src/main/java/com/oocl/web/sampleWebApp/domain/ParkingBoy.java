@@ -6,10 +6,10 @@ import javax.persistence.*;
 @Table(name = "parking_boy")
 public class ParkingBoy {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "employee_id", length = 64, unique = true, nullable = false)
+    @Column(name = "employee_Id", length = 64, unique = true, nullable = false)
     private String employeeId;
 
     public Long getId() {
